@@ -19,8 +19,8 @@ PHOTO = "https://telegra.ph/file/b068fc8dc8d9be627bf85.jpg"
 @register(pattern=("/alive"))
 async def awake(event):
   legendx = event.sender.first_name
-  LEGENDX = "HELLO THIS IS GRAND OFFICIAL \n\n"
-  LEGENDX += "ALL SYSTEM WORKING PROPERLY\n\n"
+  LEGENDX = (
+      "HELLO THIS IS GRAND OFFICIAL \n\n" + "ALL SYSTEM WORKING PROPERLY\n\n")
   LEGENDX += "GRAND OS : 3.8 LATEST\n\n"
   LEGENDX += f"MY MASTER {legendx} ☺️\n\n"
   LEGENDX += "FULLY UPDATED\n\n"
@@ -42,16 +42,15 @@ async def callback_query_handler(event):
   PROBOYX +=[[Button.url("API_ID & HASH", "https://t.me/usetgxbot"), Button.url("REDIS", "https://redislabs.com")]]
   PROBOYX +=[[Button.url("SUPPORT CHANNEL", "https://t.me/LEGENDBOT_OFFICIAL"), Button.url("SUPPORT GROUP", "https://t.me/LEGEND_USERBOT_SUPPORT")]]
   PROBOYX +=[[custom.Button.inline("ALIVE", data="PROBOY")]]
-  await event.edit(text=f"ALL DETAILS OF REPOS", buttons=PROBOYX)
+  await event.edit(text="ALL DETAILS OF REPOS", buttons=PROBOYX)
 
 
 @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"PROBOY")))
 async def callback_query_handler(event):
   global PHOTO
   legendx = event.sender.first_name
-# inline by LEGENDX22 and PROBOY22 🔥
-  LEGENDX = "HELLO THIS IS GRAND OFFICIAL \n\n"
-  LEGENDX += "ALL SYSTEM WORKING PROPERLY\n\n"
+  LEGENDX = (
+      "HELLO THIS IS GRAND OFFICIAL \n\n" + "ALL SYSTEM WORKING PROPERLY\n\n")
   LEGENDX += "GRAND OS : 3.8 LATEST\n\n"
   LEGENDX += f"MY MASTER {legendx} ☺️\n\n"
   LEGENDX += "FULLY UPDATED BOT\n\n"

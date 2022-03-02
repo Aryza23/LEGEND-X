@@ -15,15 +15,15 @@ from telethon.errors import *
 
 @register(pattern="^/bash (.*)")
 async def msg(event):
-    if event.sender_id == OWNER_ID or event.sender_id in SUDO_USERS or event.sender_id == LEGENDX:
-        pass
-    else:
+    if (
+        event.sender_id != OWNER_ID
+        and event.sender_id not in SUDO_USERS
+        and event.sender_id != LEGENDX
+    ):
         return
     PROCESS_RUN_TIME = 100
     cmd = event.pattern_match.group(1)
-    reply_to_id = event.message.id
-    if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
+    reply_to_id = event.reply_to_msg_id or event.message.id
     time.time() + PROCESS_RUN_TIME
     process = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
@@ -38,22 +38,17 @@ async def msg(event):
     else:
         _o = o.split("\n")
         o = "`\n".join(_o)
-    await event.reply(f"**QUERY:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{o}"
-)
+        await event.reply(f"**QUERY:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{o}"
+    )
 
 @register(pattern="/eval")
 async def _(event):
-    if event.sender_id == OWNER_ID or event.sender_id == LEGENDX:
+    if event.sender_id in [OWNER_ID, LEGENDX]:
         pass
-    elif event.sender_id in SUDO_USERS:
-        pass
-    else:
+    elif event.sender_id not in SUDO_USERS:
         return
     cmd = event.text.split(" ", maxsplit=1)[1]
-    reply_to_id = event.message.id
-    if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
-
+    reply_to_id = event.reply_to_msg_id or event.message.id
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = io.StringIO()

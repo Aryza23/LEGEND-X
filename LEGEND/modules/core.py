@@ -19,30 +19,27 @@ opn = []
 @register(pattern="/open")
 async def _(event):
     xx = await event.reply("Processing...")
-    if event.reply_to_msg_id:
-        a = await event.get_reply_message()
-        if a.media:
-            b = await a.download_media()
-            c = open(b, "r")
-            d = c.read()
-            c.close()
-            n = 4096
-            for bkl in range(0, len(d), n):
-                opn.append(d[bkl : bkl + n])
-            for bc in opn:
-                await event.client.send_message(
-                    event.chat_id,
-                    f"{bc}",
-                    reply_to=event.reply_to_msg_id,
-                )
-            await event.delete()
-            opn.clear()
-            os.remove(b)
-            await xx.delete()
-        else:
-            return await event.reply("Reply to a readable file")
-    else:
+    if not event.reply_to_msg_id:
         return await event.reply("Reply to a readable file")
+    a = await event.get_reply_message()
+    if not a.media:
+        return await event.reply("Reply to a readable file")
+    b = await a.download_media()
+    with open(b, "r") as c:
+        d = c.read()
+    n = 4096
+    for bkl in range(0, len(d), n):
+        opn.append(d[bkl : bkl + n])
+    for bc in opn:
+        await event.client.send_message(
+            event.chat_id,
+            f"{bc}",
+            reply_to=event.reply_to_msg_id,
+        )
+    await event.delete()
+    opn.clear()
+    os.remove(b)
+    await xx.delete()
 client = tbot
 import time
 from io import BytesIO
@@ -78,9 +75,11 @@ from pathlib import Path
 async def install(event):
     if event.fwd_from:
         return
-    if event.sender_id == OWNER_ID or event.sender_id in DEV_USERS or event.sender_id == LEGENDX:
-        pass
-    else:
+    if (
+        event.sender_id != OWNER_ID
+        and event.sender_id not in DEV_USERS
+        and event.sender_id != LEGENDX
+    ):
         return
     if event.reply_to_msg_id:
         try:

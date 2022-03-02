@@ -36,7 +36,7 @@ async def download_video(v_url):
     sender = await lazy.get_sender()
     me = await lazy.client.get_me()
 
-    if not sender.id == me.id:
+    if sender.id != me.id:
         rkp = await lazy.reply("`processing...`")
     else:
         rkp = await lazy.edit("`processing...`")
@@ -154,7 +154,7 @@ async def download_video(v_url):
     lazy = v_url
     sender = await lazy.get_sender()
     me = await lazy.client.get_me()
-    if not sender.id == me.id:
+    if sender.id != me.id:
         rkp = await lazy.reply("`processing...`")
     else:
         rkp = await lazy.edit("`processing...`")

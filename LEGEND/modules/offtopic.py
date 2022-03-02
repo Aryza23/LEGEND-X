@@ -4,7 +4,7 @@ from telethon import events
 from LEGEND import telethn as client
 @client.on(events.NewMessage(pattern='#offtopic|#ot'))
 async def handler(event):
-  if event.chat_id == -1001383980001 or event.chat_id == -1001365341799:
+  if event.chat_id in [-1001383980001, -1001365341799]:
     try:
       ok = await event.get_reply_message()
       oo = event.chat.username
@@ -13,5 +13,5 @@ async def handler(event):
     except:
       await event.reply("tag a message and type #ot or #offtopic")
   else:
-     await event.reply("this chat not made for this command")
+    await event.reply("this chat not made for this command")
   
